@@ -50,6 +50,25 @@ export class App extends Component {
     return filteredContacts;
   };
 
+  // Record contacts in localeStorage
+
+  componentDidUpdate(prevProps, prevState) { 
+    if (this.state.contacts !== prevState.contacts) { 
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
+    }
+  }
+
+    // Take contacts from localeStorage
+
+  componentDidMount() { 
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) { 
+      this.setState({contacts: parsedContacts})
+    }
+  }
+
   render() {
     const filteredContacts = this.filterContacts;
     const { filter } = this.state;
